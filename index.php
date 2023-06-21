@@ -90,23 +90,26 @@
                             <!-- <label>Enter First Name<span class="text-danger">*</span></label> -->
                             <input type="text" name="fname" id="first" class="form-control" placeholder="First Name" minlength="3">
                             <!-- <span class="text-danger"></span> -->
-                            <!-- <div class="valid-feedback">
-                                Looks good!
-                            </div> -->
+                            <!-- <div id="errorMessage1" class="alert alert-danger d-none"></div> -->
+                            <span class="alert alert-danger d-none" id="errorMessage1"></span>
                         </div>
                         <div class="form-group">
                             <input type="text" name="lname" id="last" class="form-control" placeholder="Last Name">
+                            <div id="errorMessage2" class="alert alert-danger d-none"></div>
                             <!-- <span class="text-danger"></span> -->
                         </div>
                         <div class="form-group">
                             <input type="number" name="age" id="a" class="form-control" placeholder="Age" min="10" max="100">
+                            <div id="errorMessage3" class="alert alert-danger d-none"></div>
                         </div>
                         <div class="form-group">
                             <input type="email" name="email" id="em" class="form-control" placeholder="Email id" >
                             <!-- <span class="text-danger"></span> -->
+                            <div id="errorMessage4" class="alert alert-danger d-none"></div>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="contact" id="cont" class="form-control" placeholder="Contact Number" maxlength="10">
+                            <input type="text" name="contact" id="cont" class="form-control" placeholder="Contact Number">
+                            <div id="errorMessage5" class="alert alert-danger d-none"></div>
                         </div>
                         <div class="form-group">
                             <div>
@@ -138,6 +141,7 @@
                         <input type="hidden" name="id" id="id">
                         <div class="form-group">
                             <input type="text" name="fname" class="form-control" id="fname">
+                            <div id="errorMessage" class="alert alert-warning d-none"></div>
                         </div>
                         <div class="form-group">
                             <input type="text" name="lname" class="form-control" id="lname" >
@@ -262,17 +266,20 @@
             $('#insert').click(function(e) {
                 if ($('#form-data')[0].checkValidity()) {
                     e.preventDefault();
+                    var fuser=$('#first').val();
                     $.ajax({
                         url: "action.php",
                         type: "POST",
                         data: $("#form-data").serialize() + "&action=insert",
                         success: function(response) {
                             var data=jQuery.parseJSON(response);
-                            if(data.status == 422){
+                            // if(data.id == 'fname')
+                            if(data.status == 00){
                                 $('#errorMessage').removeClass('d-none');
                                 $('#errorMessage').text(data.message);
                             } else if(data.status == 200){
                                 $('#errorMessage').addClass('d-none');
+                                // $("#errorMessage").hide();
                                 swal.fire({
                                     title: 'User Added Successfully',
                                     type: 'success'
@@ -283,6 +290,33 @@
                                 showAllUsers();
                             } else if(data.status ==500){
                                 alert(data.message);
+                            } 
+                            $("#first").focusout(function(){
+                                
+                            });
+                            if(data.id == 1){
+                                $('#errorMessage1').removeClass('d-none');
+                                $('#errorMessage1').text(data.message);
+                                // if(!fuser==""){
+                                //     $('#errorMessage1').addClass('d-none');
+                                // }
+
+                            }
+                            if(data.id==2){
+                                $('#errorMessage2').removeClass('d-none');
+                                $('#errorMessage2').text(data.message);   
+                            }
+                            if(data.id==3){
+                                $('#errorMessage3').removeClass('d-none');
+                                $('#errorMessage3').text(data.message);   
+                            }
+                            if(data.id==4){
+                                $('#errorMessage4').removeClass('d-none');
+                                $('#errorMessage4').text(data.message);   
+                            }
+                            if(data.id==5){
+                                $('#errorMessage5').removeClass('d-none');
+                                $('#errorMessage5').text(data.message);   
                             }
 
                             //console.log(response);

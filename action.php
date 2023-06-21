@@ -96,8 +96,9 @@ if (isset($_POST['action']) && $_POST['action'] == "insert"){
 
     if($fname==NULL||$lname==NULL||$age==NULL||$email==NULL||$contact==NULL){
         $result=[
-            'status'=>422,
-            'message'=> 'ALL fields are required'
+            'status'=>00,
+            'message'=> 'ALL fields are required',
+            'id'=>0
         ];
         echo json_encode($result);
         return;
@@ -105,15 +106,22 @@ if (isset($_POST['action']) && $_POST['action'] == "insert"){
     if(!preg_match("/^[a-zA-Z ]*$/", $fname)){
         $result=[
             'status'=>422,
-            'message'=>'First Name : Only alphabet and white space are allowed'
+            'message'=>'First Name : Only alphabet and white space are allowed',
+            'id'=>'1'
         ];
         echo json_encode($result);
         return;
     }
+    // else{
+    //     $result=['status'=>204];
+    //     echo json_encode($result);
+    //     return;
+    // }
     if(!preg_match("/^[a-zA-Z ]*$/", $lname)){
         $result=[
             'status'=>422,
-            'message'=>'Last Name : Only alphabet and white space are allowed'
+            'message'=>'Last Name : Only alphabet and white space are allowed',
+            'id'=>'2'
         ];
         echo json_encode($result);
         return;
@@ -122,7 +130,8 @@ if (isset($_POST['action']) && $_POST['action'] == "insert"){
     if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
         $result=[
             'status'=>422,
-            'message'=>'Email: Invalid email format'
+            'message'=>'Email: Invalid email format',
+            'id'=>'3'
         ];
         echo json_encode($result);
         return;
@@ -131,7 +140,8 @@ if (isset($_POST['action']) && $_POST['action'] == "insert"){
     if(!preg_match("/^[0-9]*$/",$contact)){
         $result=[
             'status'=>422,
-            'message'=>'Number: Only numeric value is allowed'
+            'message'=>'Number: Only numeric value is allowed',
+            'id'=>'4'
         ];
         echo json_encode($result);
         return;
@@ -139,7 +149,8 @@ if (isset($_POST['action']) && $_POST['action'] == "insert"){
     if(strlen($contact)!=10){
         $result=[
             'status'=>422,
-            'message'=>'Number: Mobile no must contain 10 digits.'
+            'message'=>'Number: Mobile no must contain 10 digits.',
+            'id'=>'5'            
         ];
         echo json_encode($result);
         return;
